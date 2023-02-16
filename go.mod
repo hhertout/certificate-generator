@@ -2,4 +2,4 @@ module training/certificat_generator
 
 go 1.20
 
-require github.com/jung-kurt/gofpdf v1.16.2 // indirect
+require github.com/jung-kurt/gofpdf v1.16.2 // direct

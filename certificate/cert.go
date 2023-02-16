@@ -74,6 +74,7 @@ func validateName(name string) (string, error) {
 	return strings.ToTitle(name), nil
 }
 
+// Parse the date to the correct format
 func parseDate(date string) (time.Time, error) {
 	t, err := time.Parse("2006-01-02", date)
 	if err != nil {

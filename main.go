@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	cert "training/certificat_generator/certificate"
-	"training/certificat_generator/pdf"
+	"training/certificat_generator/html"
 )
 
 func main() {
@@ -15,7 +15,8 @@ func main() {
 	}
 
 	var saver cert.Saver
-	saver, err = pdf.New("output")
+	//saver, err = pdf.New("output")
+	saver, err = html.New("output")
 	if err != nil {
 		fmt.Println("Impossible to load the pdf generator")
 		os.Exit(1)

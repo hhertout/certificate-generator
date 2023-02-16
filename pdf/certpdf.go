@@ -109,14 +109,16 @@ func body(pdf *gofpdf.Fpdf, c *cert.Certificate) {
 func footer(pdf *gofpdf.Fpdf) {
 	margin := float64(30)
 	imageWidth := 30
+
+	pageWidth, pageHeight := pdf.GetPageSize()
+	x := pageWidth - float64(imageWidth)
+	y := pageHeight - float64(imageWidth)
+
 	filename := "assets/images/stamp.jpg"
 
 	opts := gofpdf.ImageOptions{
 		ImageType: "jpg",
 	}
-	pageWidth, pageHeight := pdf.GetPageSize()
-	x := pageWidth - float64(imageWidth)
-	y := pageHeight - float64(imageWidth)
 
 	pdf.ImageOptions(filename, float64(x-margin), float64(y-margin), float64(imageWidth), 0, false, opts, 0, "")
 }

@@ -50,7 +50,7 @@ func (p *PdfSaver) Save(cert cert.Certificate) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Process complete, certificate is save at '%v'", path)
+	fmt.Printf("Process complete, certificate is save at '%v'\n", path)
 	return nil
 }
 

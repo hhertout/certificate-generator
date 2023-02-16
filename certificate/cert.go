@@ -2,10 +2,14 @@ package cert
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
-type Cert struct {
+var MaxLenCourse = 20
+var MaxLenName = 30
+
+type Certificate struct {
 	Course string
 	Name   string
 	Date   time.Time
@@ -18,15 +22,21 @@ type Cert struct {
 }
 
 type Saver interface {
-	Save(c Cert) error
+	Save(c Certificate) error
 }
 
-func New(course, name, date string) (*Cert, error) {
-	c := course
-	n := name
+func New(course, name, date string) (*Certificate, error) {
+	c, err := validateCourse(course)
+	if err != nil {
+		return nil, err
+	}
+	n, err := validateName(name)
+	if err != nil {
+		return nil, err
+	}
 	d := date
 
-	cert := &Cert{
+	cert := &Certificate{
 		Course:             c,
 		Name:               n,
 		LabelTitle:         fmt.Sprintf("%v Certificate - %v", c, n),
@@ -37,4 +47,38 @@ func New(course, name, date string) (*Cert, error) {
 	}
 
 	return cert, nil
+}
+
+// Validate the title of the course
+func validateCourse(course string) (string, error) {
+	course, err := validateStr(course, MaxLenCourse)
+	if err != nil {
+		return "", err
+	}
+	if !strings.HasSuffix(course, " course") {
+		course = course + " course"
+	}
+
+	return strings.ToTitle(course), nil
+}
+
+// Validate the name of person
+func validateName(name string) (string, error) {
+	name, err := validateStr(name, MaxLenName)
+	if err != nil {
+		return "", err
+	}
+	return strings.ToTitle(name), nil
+}
+
+// Validate the format string for the certificate
+func validateStr(str string, maxLength int) (string, error) {
+	str = strings.TrimSpace(str)
+	if len(str) <= 0 {
+		return str, fmt.Errorf("invalid string length, got %s, len=%v", str, len(str))
+	} else if len(str) > maxLength {
+		return str, fmt.Errorf("invalid string lenght, max length is %v, got %v", len(str), maxLength)
+	}
+
+	return str, nil
 }
